@@ -13,28 +13,40 @@
           </b-nav-text>
         </b-navbar-nav>
         <b-navbar-nav class="mr-auto c-tabs">
+          <b-nav-text
+            class="c-tab is-tab-active rounded-top mr-2 d-flex align-items-center"
+          >
+            Campaigns
+          </b-nav-text>
           <b-nav-text class="c-tab rounded-top mr-2 d-flex align-items-center">
-            Hello
+            Team
           </b-nav-text>
         </b-navbar-nav>
         <b-navbar-nav :class="{ 'c-right-content': show }">
           <b-nav-text class="c-nav-text px-3" @click="show = true">
-            <b-icon icon="menu-app" class="c-icon"></b-icon>
+            <b-icon icon="card-list" class="c-icon"></b-icon>
             <span class="c-text">APPS</span>
           </b-nav-text>
           <b-nav-text
             class="c-nav-text px-3"
-            v-if="show || fullScreen"
+            v-if="show"
             @click="OpenFullScreen()"
           >
-            <b-icon icon="arrows-fullscreen" class="c-icon"></b-icon>
+            <b-icon icon="arrow-left-short" class="c-icon"></b-icon>
+          </b-nav-text>
+          <b-nav-text
+            class="c-nav-text px-3"
+            v-if="minimize"
+            @click="minimizeDrawer()"
+          >
+            <b-icon icon="arrow-right-short" class="c-icon"></b-icon>
           </b-nav-text>
           <b-nav-text
             class="c-nav-text px-3"
             v-if="show || fullScreen"
             @click="closeDrawer()"
           >
-            <b-icon icon="x" class="c-icon"></b-icon>
+            <b-icon icon="x-circle" class="c-icon"></b-icon>
           </b-nav-text>
         </b-navbar-nav>
       </div>
@@ -61,16 +73,23 @@ export default {
     return {
       show: false,
       fullScreen: false,
+      minimize: false,
     };
   },
   methods: {
     OpenFullScreen: function () {
       this.show = false;
       this.fullScreen = true;
+      this.minimize = true;
     },
     closeDrawer: function () {
       this.show = false;
       this.fullScreen = false;
+    },
+    minimizeDrawer: function () {
+      this.show = true;
+      this.fullScreen = false;
+      this.minimize = false;
     },
   },
 };
@@ -79,47 +98,50 @@ export default {
 <style lang="scss">
 .c-navbar {
   background-color: #1283da;
+
+  .c-text {
+    color: white;
+    font-size: 1rem;
+    padding-left: 4px;
+    font-weight: 500;
+  }
+  .c-icon {
+    color: white;
+    font-size: 1.4rem;
+  }
+  .c-navbar-brand {
+    letter-spacing: 2px;
+  }
+  .c-nav-text {
+    cursor: pointer;
+  }
+  .c-right-content {
+    width: 25%;
+    color: red;
+  }
+  .c-tabs {
+    position: absolute;
+    display: flex;
+    height: 100%;
+    left: 8%;
+  }
 }
-.c-navbar-brand {
-  letter-spacing: 2px;
-}
-.c-nav-text {
-  cursor: pointer;
-}
-.c-tabs {
-  background-color: #1283da;
-}
-.c-navbar .c-icon {
-  color: white;
-  font-size: 1.5rem;
-}
-.c-navbar .c-text {
-  color: white;
-  font-size: 1.2rem;
-  padding-left: 4px;
-  font-weight: 500;
-}
-.c-right-content {
-  width: 25%;
-  // transition: 0.5s;
-  color: red;
-}
-.c-tabs {
-  position: absolute;
-  display: flex;
-  height: 100%;
-  left: 8%;
-}
+
 .c-tabs .c-tab {
   padding-left: 30px;
   padding-right: 30px;
-  background-color: white;
-  color: black;
+  background-color: rgb(17, 37, 149);
+  color: white;
+  letter-spacing: 1px;
   margin-right: 20px;
   padding-top: 0;
   padding-bottom: 0;
 }
-
+.c-tabs .is-tab-active {
+  color: black;
+  background-color: white;
+}
+/* right drawer */
 .c-drawer {
   position: fixed;
   width: 0%;
@@ -127,15 +149,23 @@ export default {
   background-color: #1283da;
   right: 0;
   transition: 0.5s;
+  .content {
+    width: 100%;
+    height: 100%;
+    margin-left: 10px;
+    background-color: white;
+  }
 }
 .c-drawer-open {
   width: 25%;
   transition: 0.5s;
 }
+
 .c-drawer-fullscreen {
   width: 100%;
   transition: 0.5s;
 }
+/* tab content */
 .main-content {
   width: 100%;
   height: calc(100vh - 88px);
@@ -149,11 +179,5 @@ export default {
 .main-content-fullscreen {
   width: 0%;
   transition: 0.5s;
-}
-.c-drawer .content {
-  width: 100%;
-  height: 100%;
-  margin-left: 10px;
-  background-color: white;
 }
 </style>
