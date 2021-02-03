@@ -5,13 +5,16 @@
         Content Calendar
       </b-navbar-brand>
     </b-navbar>
-    <b-navbar toggleable="lg" type="dark" class="c-navbar p-0">
+
+    <b-navbar type="dark" class="c-navbar p-0">
+      <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
       <div class="container-fluid">
         <b-navbar-nav>
           <b-nav-text class="px-3 c-nav-text">
             <b-icon icon="blockquote-right" class="c-icon"></b-icon>
           </b-nav-text>
         </b-navbar-nav>
+        <!-- <b-collapse id="nav-collapse" is-nav> -->
         <b-navbar-nav class="mr-auto c-tabs">
           <b-nav-text
             class="c-tab is-tab-active rounded-top mr-2 d-flex align-items-center"
@@ -22,6 +25,7 @@
             Team
           </b-nav-text>
         </b-navbar-nav>
+        <!-- </b-collapse> -->
         <b-navbar-nav :class="{ 'c-right-content': show }">
           <b-nav-text class="c-nav-text px-3" @click="show = true">
             <b-icon icon="card-list" class="c-icon"></b-icon>
@@ -55,7 +59,11 @@
       class="c-drawer"
       :class="{ 'c-drawer-open': show, 'c-drawer-fullscreen': fullScreen }"
     >
-      <div class="content bg-white">ok</div>
+      <div class="content bg-white">
+        <div class="container py-3">
+          <h4 class="text-center text-info">Drawer Content</h4>
+        </div>
+      </div>
     </div>
     <div
       class="main-content bg-white"
@@ -63,7 +71,11 @@
         'main-content-open': show,
         'main-content-fullscreen': fullScreen,
       }"
-    ></div>
+    >
+      <div class="container py-4">
+        <h4 class="text-center text-primary">Tab Content</h4>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -85,6 +97,7 @@ export default {
     closeDrawer: function () {
       this.show = false;
       this.fullScreen = false;
+      this.minimize = false;
     },
     minimizeDrawer: function () {
       this.show = true;
@@ -179,5 +192,22 @@ export default {
 .main-content-fullscreen {
   width: 0%;
   transition: 0.5s;
+}
+
+@media only screen and (max-width: 480px) {
+  .c-drawer-open {
+    width: 85%;
+    transition: 0.5s;
+  }
+}
+
+@media only screen and (min-width: 480px) and (max-width: 768px) {
+  .c-drawer-open {
+    width: 60%;
+    transition: 0.5s;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
 }
 </style>
